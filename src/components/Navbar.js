@@ -8,11 +8,13 @@ import SearchBar from './SearchBar'
 import './Navbar.css'
 
 export default function Navbar() {
-    const { color, changeColor } = useTheme()
+    // We use the useTheme hooks to get the color from ThemeContext.js
+    const { color } = useTheme()
 
     return (
+        // We get that color and set it as the background of our navBar
         <div className="navbar" style={{ background: color }}>
-            <nav onClick={() => changeColor('pink')}>
+            <nav>
                 <Link to="/" className="brand">
                     <h1>Cooking Ninja</h1>
                 </Link>
