@@ -15,7 +15,9 @@ export default function Home() {
     useEffect(() => {
         setIsPending(true)
 
-        projectFirestore.collection('recipes').get().then((snapshot) => {
+        // The onSnapshot method is going to fire once inicially when the page is loaded. Then everytime there is a change inside the "recipes" collection the method will fire again
+        // with the new updated data
+        const unsub = projectFirestore.collection('recipes').onSnapshot((snapshot) => {
             if (snapshot.empty) {
                 setError('No recipes to load')
                 setIsPending(false)
@@ -27,10 +29,12 @@ export default function Home() {
                 setData(results)
                 setIsPending(false)
             }
-        }).catch(err => {
+        }, (err) => {
             setError(err.message)
             setIsPending(false)
         })
+
+        return () => unsub()
     }, [])
 
 
